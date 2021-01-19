@@ -6,7 +6,7 @@ pipeline {
     } 
         agent any 
         
-        stages { 
+        stage { 
             stage('Cloning Git') { 
                 steps { 
                     git 'https://github.com/prakashgkhaire/DemoCICD.git'
