@@ -19,10 +19,43 @@ pipeline {
                         docker.build registry + ":$BUILD_NUMBER" 
                         
                     } 
-                    
+                  
                 } 
-                
+	                
             }
+	        stage('Deploy our image') { 
+
+            steps { 
+
+                script {
+
+                    docker.withRegistry( '', registryCredential ) {
+
+                        dockerImage.push()
+
+                    }
+
+                } 
+
+            }
+
+        }
+
+        stage('Cleaning up') { 
+
+            steps {
+
+                sh "docker images"
+
+                sh "docker rmi --force $registry:$BUILD_NUMBER"
+
+            }
+
+        }
+
+    }
+
+
         }
     
 }
